@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SmartFinanceAI{% endblock %}</title>
+
+    <!-- Theme (html) — must run synchronously before first paint to avoid a
+         light/dark flash. This is the ONLY place this script exists. -->
+    <script>
+    (function(){
+        try{
+            if(localStorage.getItem('sfai-theme') === 'light'){
+                document.documentElement.classList.add('light-mode');
+            }
+        }catch(e){}
+    })();
+    </script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<!-- Theme (body) — kept as the very first thing in <body> so body-scoped
+     CSS variables (see body.light-mode in style.css) apply before any
+     component below it paints. Single source of truth, no per-page copies. -->
+<script>
+(function(){
+    try{
+        if(localStorage.getItem('sfai-theme') === 'light'){
+            document.body.classList.add('light-mode');
+        }
+    }catch(e){}
+})();
+</script>
+
+<div class="sidebar">
+
+    <h2>
+        <span class="brand-logo-icon brand-logo-icon-sm"><i class="bi bi-graph-up-arrow"></i></span>
+        <span class="brand-logo-text">SmartFinance<span class="brand-ai-badge">AI</span></span>
+    </h2>
+
+    <a href="/dashboard" data-nav="/dashboard"><i class="bi bi-house-door-fill"></i><span>Dashboard</span></a>
+    <a href="/income" data-nav="/income"><i class="bi bi-cash-stack"></i> <span>Income</span></a>
+    <a href="/expense" data-nav="/expense"><i class="bi bi-wallet2"></i> <span>Expense</span></a>
+    <a href="/budget" data-nav="/budget"><i class="bi bi-bar-chart"></i> <span>Budget</span></a>
+    <a href="/goal" data-nav="/goal"><i class="bi bi-bullseye"></i> <span>Goals</span></a>
+    <a href="/financial_health" data-nav="/financial_health"><i class="bi bi-heart-pulse"></i> <span>Financial Health</span></a>
+    <a href="/predict" data-nav="/predict"><i class="bi bi-robot"></i> <span>AI Insights</span></a>
+    <a href="/assistant" data-nav="/assistant"><i class="bi bi-chat-dots"></i><span>AI Assistant</span></a>
+    <a href="/forecast" data-nav="/forecast"><i class="bi bi-graph-up-arrow"></i> <span>Expense Forecast</span></a>
+    <a href="/loan" data-nav="/loan"><i class="bi bi-bank"></i> <span>Loan Predictor</span></a>
+    <a href="/credit" data-nav="/credit"><i class="bi bi-credit-card"></i> <span>Credit Score</span></a>
+    <a href="/risk" data-nav="/risk"><i class="bi bi-shield-check"></i> <span>Risk Predictor</span></a>
+    <a href="/reports" data-nav="/reports"><i class="bi bi-file-earmark-bar-graph"></i> <span>Reports</span></a>
+
+</div>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<div class="main-content">
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+
+        <div class="container-fluid px-4 px-lg-5 flex-wrap gap-3">
+
+            <div class="d-flex align-items-center">
+
+                <button class="menu-toggle-btn" id="sidebarToggleBtn" type="button" aria-label="Toggle menu">
+                    <i class="bi bi-list"></i>
+                </button>
+
+                <a class="navbar-brand fw-bold d-flex align-items-center gap-2 mb-0" href="#">
+                    <span class="brand-logo-icon"><i class="bi bi-graph-up-arrow"></i></span>
+                    <span class="brand-logo-text">SmartFinance<span class="brand-ai-badge">AI</span></span>
+                </a>
+
+            </div>
+
+            <div class="navbar-controls">
+
+                <div class="notification-wrapper">
+
+                    <div class="icon-pill" id="notificationBtn" title="Notifications">
+                        <i class="bi bi-bell-fill"></i>
+                        {% if notification_count|default(0) > 0 %}
+                        <span class="notification-count">{{ notification_count }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="notification-menu" id="notificationMenu">
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0"><i class="bi bi-bell-fill"></i> Notifications</h6>
+                            <span class="badge bg-primary">{{ notification_count|default(0) }}</span>
+                        </div>
+
+                        {% if notification_list %}
+                            {% for n in notification_list %}
+                            <div class="notification-item">
+                                <div class="notification-title">{{ n.title }}</div>
+                                <div class="notification-message">{{ n.message }}</div>
+                                <div class="notification-time">{{ n.created_at.strftime("%d %b %Y %I:%M %p") }}</div>
+                            </div>
+                            <div class="notification-divider"></div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="notification-item">
+                                <i class="bi bi-bell-slash fs-2"></i><br><br>
+                                No notifications yet.
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                <div class="theme-switch">
+                    <i class="bi bi-sun-fill theme-icon"></i>
+                    <label class="switch">
+                        <input type="checkbox" id="themeToggle">
+                        <span class="slider"></span>
+                    </label>
+                    <i class="bi bi-moon-stars-fill theme-icon"></i>
+                </div>
+
+                <div class="profile-dropdown">
+
+                    <div class="profile-avatar" id="profileBtn" title="Account">
+                        {{ (user_name|default('U'))[0]|upper }}
+                    </div>
+
+                    <div class="profile-menu" id="profileMenu">
+
+                        <div class="profile-name">{{ user_name|default('User') }}</div>
+
+                        <a href="/profile"><i class="bi bi-person"></i> My Profile</a>
+                        <a href="/settings"><i class="bi bi-gear"></i> Settings</a>
+                        <a href="/help"><i class="bi bi-question-circle"></i> Help</a>
+
+                        <div class="notification-divider"></div>
+
+                        <a href="/logout" class="logout-link"><i class="bi bi-box-arrow-right"></i> Logout</a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    {% block page_header %}{% endblock %}
+
+    <div class="section-wrap">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer class="app-footer">
+
+        <div class="footer-brand">
+            <span class="brand-logo-icon brand-logo-icon-sm"><i class="bi bi-graph-up-arrow"></i></span>
+            <span class="brand-logo-text">SmartFinance<span class="brand-ai-badge">AI</span></span>
+        </div>
+
+        <p class="footer-tagline">AI-Powered Personal Finance Management System</p>
+
+    </footer>
+
+</div>
+
+<!-- Single shared script for the entire site: theme toggle, sidebar,
+     dropdowns, scroll reveal, nav highlighting, counters, chart skeletons. -->
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+{% block extra_scripts %}{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Credit Score Predictor - SmartFinanceAI{% endblock %}
+
+{% block page_header %}
+    <div class="dashboard-header fade-in">
+        <div class="welcome-eyebrow"><i class="bi bi-credit-card-fill"></i> Credit Score</div>
+        <h1 class="dashboard-title">Credit Score Predictor</h1>
+        <p class="dashboard-subtitle">AI-powered credit score classification based on your financial profile.</p>
+        <div class="ai-feature-chip" style="margin-top:14px;">
+            <i class="bi bi-cpu-fill"></i> Decision Tree Classification Model
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="glass-card reveal" style="padding:26px; margin-top:24px; text-align:center;">
+        <h4><i class="bi bi-shield-check"></i> Credit Score Analysis</h4>
+        <p class="mb-0">Provide your financial details below to receive an AI-generated credit score classification.</p>
+    </div>
+
+    <div class="alert alert-info reveal" style="margin-top:20px;">
+        <i class="bi bi-lightbulb-fill"></i>
+        <strong>AI Tip:</strong> Higher income, home ownership and education level generally contribute to a stronger credit profile.
+    </div>
+
+    <div class="glass-card settings-card reveal">
+
+        <form method="POST">
+
+            <div class="settings-card-body">
+
+                <div class="settings-field-group">
+                    <label class="form-label"><i class="bi bi-person-fill"></i> Age</label>
+                    <input type="number" name="age" class="form-control" placeholder="Enter your age" required>
+                </div>
+
+                <div class="settings-field-group">
+                    <label class="form-label"><i class="bi bi-gender-ambiguous"></i> Gender</label>
+                    <select name="gender" class="form-select">
+                        <option value="0">Female</option>
+                        <option value="1">Male</option>
+                    </select>
+                </div>
+
+                <div class="settings-field-group">
+                    <label class="form-label"><i class="bi bi-cash-stack"></i> Monthly Income</label>
+                    <input type="number" name="income" class="form-control" placeholder="Enter monthly income" required>
+                </div>
+
+                <div class="settings-field-group">
+                    <label class="form-label"><i class="bi bi-mortarboard-fill"></i> Education Level</label>
+                    <select name="education" class="form-select">
+                        <option value="0">High School</option>
+                        <option value="1">Diploma</option>
+                        <option value="2">Bachelor's Degree</option>
+                        <option value="3">Master's Degree</option>
+                    </select>
+                </div>
+
+                <div class="settings-field-group">
+                    <label class="form-label"><i class="bi bi-heart-fill"></i> Marital Status</label>
+                    <select name="marital_status" class="form-select">
+                        <option value="0">Single</option>
+                        <option value="1">Married</option>
+                    </select>
+                </div>
+
+                <div class="settings-field-group">
+                    <label class="form-label"><i class="bi bi-people-fill"></i> Number of Children</label>
+                    <input type="number" name="children" class="form-control" placeholder="Number of children" required>
+                </div>
+
+                <div class="settings-field-group">
+                    <label class="form-label"><i class="bi bi-house-fill"></i> Home Ownership</label>
+                    <select name="home_ownership" class="form-select">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100">
+                    <i class="bi bi-cpu-fill"></i> Analyze Credit Profile
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="quick-actions-row reveal">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-success quick-action-btn-lg">
+            <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
+        </a>
+    </div>
+
+{% endblock %}

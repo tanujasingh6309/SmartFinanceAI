@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Expense Forecast AI - SmartFinanceAI{% endblock %}
+
+{% block page_header %}
+    <div class="dashboard-header fade-in">
+        <div class="welcome-eyebrow"><i class="bi bi-graph-up-arrow"></i> Expense Forecast</div>
+        <h1 class="dashboard-title">Expense Forecast AI</h1>
+        <p class="dashboard-subtitle">Predict your future expenses using Artificial Intelligence.</p>
+        <div class="ai-feature-chip" style="margin-top:14px;">
+            <i class="bi bi-cpu-fill"></i> Linear Regression Forecast Model
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="glass-card reveal" style="padding:26px; margin-top:24px;">
+        <h4 class="fw-bold text-center">
+            <i class="bi bi-cpu-fill"></i> Expense Forecast
+        </h4>
+        <p class="text-secondary text-center mb-0">
+            Enter a month number and our AI model will estimate your expected expenses based on historical financial data.
+        </p>
+    </div>
+
+    <div class="glass-card settings-card reveal">
+
+        <form method="POST">
+
+            <div class="settings-card-body">
+
+                <div class="settings-field-group">
+                    <label class="form-label"><i class="bi bi-calendar-event"></i> Forecast Month</label>
+                    <input type="number" name="month" class="form-control" min="1" max="12"
+                           placeholder="Example: 1 for January" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-graph-up-arrow"></i> Generate Forecast
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="quick-actions-row reveal">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-success quick-action-btn-lg">
+            <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
+        </a>
+    </div>
+
+{% endblock %}

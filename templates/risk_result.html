@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Risk Prediction Result - SmartFinanceAI{% endblock %}
+
+{% block page_header %}
+    <div class="dashboard-header fade-in">
+        <div class="welcome-eyebrow"><i class="bi bi-shield-fill-exclamation"></i> Risk Result</div>
+        <h1 class="dashboard-title">Financial Risk Prediction</h1>
+        <p class="dashboard-subtitle">AI-powered financial risk analysis.</p>
+        <div class="ai-feature-chip" style="margin-top:14px;">
+            <i class="bi bi-cpu-fill"></i> Random Forest ML Model
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="glass-card kpi-card score reveal" style="text-align:center; margin-top:24px;">
+        <h3><i class="bi bi-graph-up-arrow"></i> Predicted Risk Level</h3>
+        <h1 class="display-3 fw-bold mt-3">
+            {{ risk }}
+            {% if "Low" in risk %}
+            <div class="mt-3">
+                <span class="badge bg-success fs-6">
+                    <i class="bi bi-check-circle-fill"></i> Low Risk
+                </span>
+            </div>
+            {% elif "Medium" in risk %}
+            <div class="mt-3">
+                <span class="badge bg-warning text-dark fs-6">
+                    <i class="bi bi-exclamation-circle-fill"></i> Medium Risk
+                </span>
+            </div>
+            {% else %}
+            <div class="mt-3">
+                <span class="badge bg-danger fs-6">
+                    <i class="bi bi-x-circle-fill"></i> High Risk
+                </span>
+            </div>
+            {% endif %}
+        </h1>
+    </div>
+
+    <div class="glass-card reveal" style="padding:28px; margin-top:20px; text-align:center;">
+
+        <h3 class="text-warning fw-bold"><i class="bi bi-lightbulb-fill"></i> AI Recommendation</h3>
+
+        {% if "Low" in risk %}
+        <p class="text-success">
+            Excellent! Your financial profile indicates a low level of risk. Continue managing your income and expenses responsibly.
+        </p>
+        {% elif "Medium" in risk %}
+        <p class="text-warning">
+            Your financial risk is moderate. Reduce unnecessary expenses and improve your savings.
+        </p>
+        {% else %}
+        <p class="text-danger">
+            High financial risk detected. Focus on lowering debt, improving your credit score, and increasing your assets before taking additional loans.
+        </p>
+        {% endif %}
+
+        <hr>
+
+        <div class="row text-center mt-4">
+            <div class="col-md-4">
+                <h6>AI Model</h6>
+                <p>Random Forest</p>
+            </div>
+            <div class="col-md-4">
+                <h6>Analysis</h6>
+                <p>Completed</p>
+            </div>
+            <div class="col-md-4">
+                <h6>Status</h6>
+                <p>{{ risk }}</p>
+            </div>
+        </div>
+
+    </div>
+
+    <p class="text-center text-secondary mt-4 mb-3 reveal">
+        <i class="bi bi-check-circle-fill text-success"></i>
+        Risk analysis completed successfully.
+    </p>
+
+    <div class="quick-actions-row reveal" style="justify-content:center;">
+        <a href="{{ url_for('risk') }}" class="btn btn-primary quick-action-btn-lg">
+            <i class="bi bi-arrow-repeat"></i> Predict Again
+        </a>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-success quick-action-btn-lg">
+            <i class="bi bi-house-fill"></i> Dashboard
+        </a>
+    </div>
+
+{% endblock %}

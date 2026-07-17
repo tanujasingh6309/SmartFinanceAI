@@ -1,0 +1,411 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block page_header %}
+<div class="dashboard-header fade-in">
+
+    <div class="welcome-eyebrow" id="welcomeGreeting">
+        <i class="bi bi-brightness-high-fill"></i> Good Morning
+    </div>
+
+    <h1 class="dashboard-title">
+        Welcome back <span class="wave">👋</span>
+    </h1>
+
+    <p class="dashboard-subtitle">
+        Track your finances, budgets, expenses, AI insights and financial health — all in one place.
+    </p>
+
+</div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="ai-banner fade-in">
+
+        <div class="ai-banner-icon"><i class="bi bi-robot"></i></div>
+
+        <div class="ai-banner-body">
+
+            <div class="ai-banner-title">AI Financial Assistant</div>
+
+            <p class="ai-banner-desc">
+                Personalized, AI-powered financial insights that help you stay on top of
+                <strong>SmartFinanceAI</strong> — your money, simplified.
+            </p>
+
+            <div class="ai-banner-features">
+                <span class="ai-feature-chip"><i class="bi bi-bar-chart-fill"></i> Budget Monitoring</span>
+                <span class="ai-feature-chip"><i class="bi bi-graph-up-arrow"></i> Expense Forecasting</span>
+                <span class="ai-feature-chip"><i class="bi bi-heart-pulse"></i> Financial Health</span>
+                <span class="ai-feature-chip"><i class="bi bi-stars"></i> Smart Recommendations</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="insight-row reveal">
+
+        {% if notifications %}
+
+        <div class="insight-card danger-type">
+            <div class="icon-badge"><i class="bi bi-exclamation-triangle-fill"></i></div>
+            <div class="insight-card-body">
+                <div class="insight-card-title">Budget Alert</div>
+                <div class="insight-card-text">{{ alert }}</div>
+            </div>
+        </div>
+
+        {% endif %}
+
+        <div class="insight-card info-type">
+            <div class="icon-badge"><i class="bi bi-stars"></i></div>
+            <div class="insight-card-body">
+                <div class="insight-card-title">AI Recommendation</div>
+                <div class="insight-card-text">{{ recommendation }}</div>
+            </div>
+        </div>
+
+        <div class="insight-card success-type">
+            <div class="icon-badge"><i class="bi bi-lightbulb-fill"></i></div>
+            <div class="insight-card-body">
+                <div class="insight-card-title">Smart Suggestion</div>
+                <div class="insight-card-text">{{ suggestion }}</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="kpi-grid reveal">
+
+        <div class="glass-card kpi-card income">
+            <div class="kpi-icon"><i class="bi bi-cash-stack"></i></div>
+            <div class="kpi-title">Income</div>
+            <div class="kpi-value">₹<span data-counter="{{ total_income }}">{{ total_income }}</span></div>
+            <div class="kpi-sub">Total earned this period</div>
+        </div>
+
+        <div class="glass-card kpi-card expense">
+            <div class="kpi-icon"><i class="bi bi-wallet2"></i></div>
+            <div class="kpi-title">Expense</div>
+            <div class="kpi-value">₹<span data-counter="{{ total_expense }}">{{ total_expense }}</span></div>
+            <div class="kpi-sub">Total spent this period</div>
+        </div>
+
+        <div class="glass-card kpi-card savings">
+            <div class="kpi-icon"><i class="bi bi-piggy-bank"></i></div>
+            <div class="kpi-title">Savings</div>
+            <div class="kpi-value">₹<span data-counter="{{ savings }}">{{ savings }}</span></div>
+            <div class="kpi-sub">Income minus expense</div>
+        </div>
+
+        <div class="glass-card kpi-card score">
+            <div class="kpi-icon"><i class="bi bi-graph-up-arrow"></i></div>
+            <div class="kpi-title">Financial Score</div>
+            <div class="kpi-value"><span data-counter="{{ score }}" data-suffix="/100">{{ score }}/100</span></div>
+            <div class="kpi-sub">{{ status }}</div>
+        </div>
+
+        <div class="glass-card kpi-card budgets">
+            <div class="kpi-icon"><i class="bi bi-bar-chart"></i></div>
+            <div class="kpi-title">Budgets</div>
+            <div class="kpi-value"><span data-counter="{{ total_budgets }}">{{ total_budgets }}</span></div>
+            <div class="kpi-sub">Active budget plans</div>
+        </div>
+
+        <div class="glass-card kpi-card goal">
+
+            <div class="kpi-icon"><i class="bi bi-bullseye"></i></div>
+            <div class="kpi-title">Current Goal</div>
+
+            <div class="kpi-value">{{ goal_name }}</div>
+            <div class="kpi-sub">Target: ₹{{ goal_target }}</div>
+
+            <div class="goal-progress-meta">
+                <span class="goal-progress-caption">Goal Progress</span>
+                <span class="goal-progress-percent">{{ goal_progress }}%</span>
+            </div>
+
+            <div class="goal-progress-track">
+                <div id="goalProgressFill" data-progress="{{ goal_progress }}"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <hr class="section-divider">
+
+    <h2 class="section-title reveal"><i class="bi bi-bar-chart-line"></i> Financial Analytics</h2>
+    <p class="section-subtitle reveal">Visual breakdown of your spending and budget performance</p>
+
+    <div id="chartDataHolder"
+         class="chart-data-holder"
+         data-food="{{ food_total }}"
+         data-travel="{{ travel_total }}"
+         data-bills="{{ bills_total }}"
+         data-shopping="{{ shopping_total }}"
+         data-food-budget="{{ food_budget_amount }}"
+         data-travel-budget="{{ travel_budget_amount }}">
+    </div>
+
+    <div class="chart-grid reveal">
+
+        <div class="glass-card chart-card">
+            <h2><i class="bi bi-pie-chart-fill chart-icon-mint"></i> Expense by Category</h2>
+            <p class="chart-card-subtitle">Breakdown of spending across Food, Travel, Bills and Shopping</p>
+            <div class="chart-card-canvas-wrap">
+                <div class="chart-skeleton"><div class="spinner-ring"></div></div>
+                <canvas id="expenseChart"></canvas>
+            </div>
+        </div>
+
+        <div class="glass-card chart-card">
+            <h2><i class="bi bi-bar-chart-line-fill chart-icon-indigo"></i> Budget vs Expense</h2>
+            <p class="chart-card-subtitle">How actual spending compares to your planned budget</p>
+            <div class="chart-card-canvas-wrap">
+                <div class="chart-skeleton"><div class="spinner-ring"></div></div>
+                <canvas id="budgetChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <hr class="section-divider">
+
+    <h2 class="section-title reveal"><i class="bi bi-lightning-charge-fill"></i> Quick Actions</h2>
+
+    <div class="quick-actions-grid reveal">
+
+        <a href="/income" class="glass-card quick-action-card">
+            <div class="qa-icon"><i class="bi bi-cash-stack"></i></div>
+            Income
+        </a>
+
+        <a href="/expense" class="glass-card quick-action-card">
+            <div class="qa-icon"><i class="bi bi-wallet2"></i></div>
+            Expense
+        </a>
+
+        <a href="/budget" class="glass-card quick-action-card">
+            <div class="qa-icon"><i class="bi bi-bar-chart"></i></div>
+            Budget
+        </a>
+
+        <a href="/goal" class="glass-card quick-action-card">
+            <div class="qa-icon"><i class="bi bi-bullseye"></i></div>
+            Goal Planner
+        </a>
+
+        <a href="/reports" class="glass-card quick-action-card">
+            <div class="qa-icon"><i class="bi bi-file-earmark-bar-graph"></i></div>
+            Reports
+        </a>
+
+        <a href="/predict" class="glass-card quick-action-card">
+            <div class="qa-icon"><i class="bi bi-robot"></i></div>
+            Predict Expense
+        </a>
+
+        <a href="/forecast" class="glass-card quick-action-card">
+            <div class="qa-icon"><i class="bi bi-graph-up-arrow"></i></div>
+            Expense Forecast
+        </a>
+
+        <a href="/loan" class="glass-card quick-action-card">
+            <div class="qa-icon"><i class="bi bi-bank"></i></div>
+            Loan Predictor
+        </a>
+
+        <a href="/credit" class="glass-card quick-action-card">
+            <div class="qa-icon"><i class="bi bi-credit-card"></i></div>
+            Credit Score
+        </a>
+
+        <a href="/risk" class="glass-card quick-action-card">
+            <div class="qa-icon"><i class="bi bi-shield-check"></i></div>
+            Risk Predictor
+        </a>
+
+        <a href="/financial_health" class="glass-card quick-action-card">
+            <div class="qa-icon"><i class="bi bi-heart-pulse"></i></div>
+            Financial Health
+        </a>
+
+    </div>
+
+    <!-- Legacy links preserved (hidden, restyled as Quick Actions above) -->
+    <div class="links">
+
+        <a href="/income" class="btn">💰 Income</a>
+        <a href="/expense" class="btn">💸 Expense</a>
+        <a href="/budget" class="btn">📊 Budget</a>
+
+        <a href="/predict" class="btn">
+            <i class="bi bi-robot"></i> Predict Expense
+        </a>
+
+        <a href="/forecast" class="btn">
+            <i class="bi bi-graph-up-arrow"></i> Expense Forecast
+        </a>
+
+        <a href="/loan" class="btn">
+            <i class="bi bi-bank"></i> Loan Predictor
+        </a>
+
+        <a href="/reports" class="btn">
+            <i class="bi bi-file-earmark-bar-graph"></i> Reports
+        </a>
+
+        <a href="/goal" class="btn">
+            <i class="bi bi-bullseye"></i> Goal Planner
+        </a>
+
+        <a href="/financial_health" class="btn">
+            <i class="bi bi-heart-pulse"></i> Financial Health
+        </a>
+
+        <a href="/credit" class="btn">
+            <i class="bi bi-credit-card"></i> Credit Score
+        </a>
+
+        <a href="/risk" class="btn">
+            <i class="bi bi-shield-check"></i> Risk Predictor
+        </a>
+
+    </div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+
+    function toNumber(value) {
+        const n = parseFloat(value);
+        return isNaN(n) ? 0 : n;
+    }
+
+    const goalFill = document.getElementById('goalProgressFill');
+    const goalProgressValue = toNumber(goalFill.dataset.progress);
+    goalFill.style.width = Math.min(goalProgressValue, 100) + '%';
+    if (goalProgressValue >= 100) {
+        goalFill.classList.add('goal-complete');
+    }
+
+    const dataHolder = document.getElementById('chartDataHolder');
+
+    const food = toNumber(dataHolder.dataset.food);
+    const travel = toNumber(dataHolder.dataset.travel);
+    const bills = toNumber(dataHolder.dataset.bills);
+    const shopping = toNumber(dataHolder.dataset.shopping);
+    const foodBudget = toNumber(dataHolder.dataset.foodBudget);
+    const travelBudget = toNumber(dataHolder.dataset.travelBudget);
+
+    const ctx = document.getElementById("expenseChart");
+
+    new Chart(ctx, {
+
+        type: "pie",
+
+        data: {
+
+            labels: [
+                "Food",
+                "Travel",
+                "Bills",
+                "Shopping"
+            ],
+
+            datasets: [{
+
+                data: [
+                    food,
+                    travel,
+                    bills,
+                    shopping
+                ],
+
+                backgroundColor: [
+                    "#36A2EB",
+                    "#FF6384",
+                    "#FF9F40",
+                    "#FFCD56"
+                ]
+
+            }]
+
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: { color: "#8d98ab" }
+                }
+            }
+        }
+
+    });
+
+</script>
+
+<script>
+
+    const budgetCtx =
+        document.getElementById('budgetChart');
+
+    new Chart(budgetCtx, {
+
+        type: 'bar',
+
+        data: {
+
+            labels: [
+                'Food',
+                'Travel'
+            ],
+
+            datasets: [
+                {
+                    label: 'Budget',
+                    data: [
+                        foodBudget,
+                        travelBudget
+                    ]
+                },
+
+                {
+                    label: 'Expense',
+                    data: [
+                        food,
+                        travel
+                    ]
+                }
+            ]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: { color: "#8d98ab" }
+                }
+            },
+            scales: {
+                x: { ticks: { color: "#8d98ab" }, grid: { color: "rgba(255,255,255,0.06)" } },
+                y: { ticks: { color: "#8d98ab" }, grid: { color: "rgba(255,255,255,0.06)" } }
+            }
+        }
+
+    });
+
+</script>
+{% endblock %}

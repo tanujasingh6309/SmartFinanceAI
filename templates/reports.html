@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+
+{% block title %}Reports Center - SmartFinanceAI{% endblock %}
+
+{% block page_header %}
+    <div class="dashboard-header fade-in">
+        <div class="welcome-eyebrow">
+            <i class="bi bi-file-earmark-bar-graph"></i>
+            Reports Center
+        </div>
+        <h1 class="dashboard-title">Financial Reports</h1>
+        <p class="dashboard-subtitle">
+            Export, analyze and manage all your financial reports from one place.
+        </p>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    {% set has_data = has_data if has_data is defined else true %}
+
+    {% if not has_data %}
+
+    <div class="glass-card empty-state-card reveal">
+        <div class="empty-state-icon"><i class="bi bi-inbox"></i></div>
+        <h3 class="empty-state-title">No reports available yet.</h3>
+        <p class="empty-state-text">
+            Start adding Income, Expenses, Budgets and Goals to generate reports.
+        </p>
+        <div class="empty-state-actions">
+            <a href="/income" class="btn btn-primary"><i class="bi bi-cash-stack"></i> Add Income</a>
+            <a href="/expense" class="btn"><i class="bi bi-wallet2"></i> Add Expense</a>
+        </div>
+    </div>
+
+    {% else %}
+
+    <!-- KPI strip: unchanged data, restyled -->
+    <div class="report-stat-row reveal">
+
+        <div class="glass-card report-stat-card">
+            <div class="report-stat-icon stat-primary"><i class="bi bi-file-earmark-bar-graph"></i></div>
+            <div class="report-stat-value"><span data-counter="10">10</span></div>
+            <div class="report-stat-label">Total Reports</div>
+        </div>
+
+        <div class="glass-card report-stat-card">
+            <div class="report-stat-icon stat-success"><i class="bi bi-download"></i></div>
+            <div class="report-stat-value"><span data-counter="4">4</span></div>
+            <div class="report-stat-label">Exports</div>
+        </div>
+
+        <div class="glass-card report-stat-card">
+            <div class="report-stat-icon stat-warning"><i class="bi bi-robot"></i></div>
+            <div class="report-stat-value"><span data-counter="4">4</span></div>
+            <div class="report-stat-label">AI Reports</div>
+        </div>
+
+        <div class="glass-card report-stat-card">
+            <div class="report-stat-icon stat-info"><i class="bi bi-folder-check"></i></div>
+            <div class="report-stat-value"><span data-counter="10">10</span></div>
+            <div class="report-stat-label">Available</div>
+        </div>
+
+    </div>
+
+    <hr class="section-divider">
+
+    <h2 class="section-title reveal"><i class="bi bi-download"></i> Export Reports</h2>
+    <p class="section-subtitle reveal">Download your financial records as Excel files</p>
+
+    <!-- Single-column report cards -->
+    <div class="report-list reveal">
+
+        <div class="glass-card report-card">
+            <div class="report-card-icon icon-success"><i class="bi bi-file-earmark-excel"></i></div>
+            <div class="report-card-body">
+                <h5 class="report-card-title">Expense Report</h5>
+                <p class="report-card-text">Download all expense records as an Excel file.</p>
+            </div>
+            <a href="/export" class="btn btn-success report-card-btn">
+                <i class="bi bi-download"></i> Export Excel
+            </a>
+        </div>
+
+        <div class="glass-card report-card">
+            <div class="report-card-icon icon-info"><i class="bi bi-cash-stack"></i></div>
+            <div class="report-card-body">
+                <h5 class="report-card-title">Income Report</h5>
+                <p class="report-card-text">Download all income records as an Excel file.</p>
+            </div>
+            <a href="/export_income" class="btn btn-success report-card-btn">
+                <i class="bi bi-download"></i> Export Income
+            </a>
+        </div>
+
+        <div class="glass-card report-card">
+            <div class="report-card-icon icon-primary"><i class="bi bi-bar-chart-fill"></i></div>
+            <div class="report-card-body">
+                <h5 class="report-card-title">Budget Report</h5>
+                <p class="report-card-text">Download all budget records as an Excel file.</p>
+            </div>
+            <a href="/export_budget" class="btn btn-primary report-card-btn">
+                <i class="bi bi-download"></i> Export Budget
+            </a>
+        </div>
+
+        <div class="glass-card report-card">
+            <div class="report-card-icon icon-danger"><i class="bi bi-heart-pulse"></i></div>
+            <div class="report-card-body">
+                <h5 class="report-card-title">Financial Health</h5>
+                <p class="report-card-text">View your latest financial health analysis.</p>
+            </div>
+            <a href="/financial_health" class="btn btn-danger report-card-btn">
+                <i class="bi bi-arrow-right-circle"></i> View Report
+            </a>
+        </div>
+
+        <div class="glass-card report-card">
+            <div class="report-card-icon icon-warning"><i class="bi bi-bullseye"></i></div>
+            <div class="report-card-body">
+                <h5 class="report-card-title">Goal Report</h5>
+                <p class="report-card-text">Download all savings goals.</p>
+            </div>
+            <a href="/export_goal" class="btn btn-primary report-card-btn">
+                <i class="bi bi-download"></i> Export Goals
+            </a>
+        </div>
+
+    </div>
+
+    <hr class="section-divider">
+
+    <h2 class="section-title reveal"><i class="bi bi-robot"></i> AI Reports</h2>
+    <p class="section-subtitle reveal">Run any of the AI prediction models</p>
+
+    <div class="glass-card ai-reports-card reveal">
+
+        <div class="ai-action-grid">
+
+            <a href="/forecast" class="ai-action-btn">
+                <div class="ai-action-icon"><i class="bi bi-graph-up-arrow"></i></div>
+                <span>Expense Forecast</span>
+            </a>
+
+            <a href="/loan" class="ai-action-btn">
+                <div class="ai-action-icon"><i class="bi bi-bank"></i></div>
+                <span>Loan Predictor</span>
+            </a>
+
+            <a href="/credit" class="ai-action-btn">
+                <div class="ai-action-icon"><i class="bi bi-credit-card"></i></div>
+                <span>Credit Score</span>
+            </a>
+
+            <a href="/risk" class="ai-action-btn">
+                <div class="ai-action-icon"><i class="bi bi-shield-check"></i></div>
+                <span>Risk Prediction</span>
+            </a>
+
+        </div>
+
+    </div>
+
+    <hr class="section-divider">
+
+    <h2 class="section-title reveal"><i class="bi bi-bar-chart-line"></i> Reports Summary</h2>
+    <p class="section-subtitle reveal">Everything that's ready for you right now</p>
+
+    <div class="glass-card summary-checklist-card reveal">
+
+        <ul class="report-checklist">
+            <li><i class="bi bi-check-circle-fill"></i> Expense Export Ready</li>
+            <li><i class="bi bi-check-circle-fill"></i> Income Export Ready</li>
+            <li><i class="bi bi-check-circle-fill"></i> Budget Report Ready</li>
+            <li><i class="bi bi-check-circle-fill"></i> Goal Report Ready</li>
+            <li><i class="bi bi-check-circle-fill"></i> AI Financial Analysis Available</li>
+            <li><i class="bi bi-check-circle-fill"></i> Expense Forecast Ready</li>
+            <li><i class="bi bi-check-circle-fill"></i> Loan Prediction Ready</li>
+            <li><i class="bi bi-check-circle-fill"></i> Credit Score Analysis Ready</li>
+            <li><i class="bi bi-check-circle-fill"></i> Financial Risk Analysis Ready</li>
+        </ul>
+
+    </div>
+
+    <hr class="section-divider">
+
+    <h2 class="section-title reveal"><i class="bi bi-lightning-charge-fill"></i> Quick Actions</h2>
+
+    <div class="quick-actions-row reveal">
+
+        <!-- TODO: No backend route exists yet for a combined download.
+             Wire this up once a /download_all_reports route is added to app.py. -->
+        <button type="button" class="btn quick-action-btn-lg" disabled title="Coming soon">
+            <i class="bi bi-cloud-download"></i> Download All Reports
+        </button>
+
+        <button type="button" class="btn quick-action-btn-lg" id="refreshReportsBtn">
+            <i class="bi bi-arrow-clockwise"></i> Refresh Reports
+        </button>
+
+        <a href="/dashboard" class="btn btn-success quick-action-btn-lg">
+            <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
+        </a>
+
+    </div>
+
+    {% endif %}
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Refresh Reports (client-side reload, no backend change needed)
+(function(){
+    const refreshBtn = document.getElementById("refreshReportsBtn");
+    if (refreshBtn){
+        refreshBtn.addEventListener("click", function(){
+            window.location.reload();
+        });
+    }
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Expense Forecast Result - SmartFinanceAI{% endblock %}
+
+{% block page_header %}
+    <div class="dashboard-header fade-in">
+        <div class="welcome-eyebrow"><i class="bi bi-bar-chart-fill"></i> Forecast Result</div>
+        <h1 class="dashboard-title">Expense Forecast</h1>
+        <p class="dashboard-subtitle">AI-powered future expense prediction.</p>
+        <div class="ai-feature-chip" style="margin-top:14px;">
+            <i class="bi bi-cpu-fill"></i> Linear Regression Forecast
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="glass-card kpi-card score reveal" style="text-align:center; margin-top:24px;">
+        <h3><i class="bi bi-graph-up-arrow"></i> Predicted Monthly Expense</h3>
+        <h1 class="display-3 fw-bold text-success">₹{{ expense }}</h1>
+    </div>
+
+    <div class="glass-card reveal" style="padding:28px; margin-top:20px; text-align:center;">
+
+        <h3 class="text-warning fw-bold"><i class="bi bi-lightbulb-fill"></i> AI Recommendation</h3>
+
+        {% if expense < 10000 %}
+        <p class="text-success">
+            Excellent! Your predicted expenses are low. Continue maintaining your current spending habits.
+        </p>
+        {% elif expense < 25000 %}
+        <p class="text-warning">
+            Your expenses are moderate. Keep monitoring unnecessary spending.
+        </p>
+        {% else %}
+        <p class="text-danger">
+            Your predicted expenses are high. Consider reducing discretionary spending and reviewing your monthly budget.
+        </p>
+        {% endif %}
+
+        <div class="row text-center mt-4">
+            <div class="col-md-4">
+                <h6>Expected Expense</h6>
+                <p>₹{{ expense }}</p>
+            </div>
+            <div class="col-md-4">
+                <h6>Risk Level</h6>
+                <p>
+                    {% if expense < 10000 %}Low
+                    {% elif expense < 25000 %}Medium
+                    {% else %}High
+                    {% endif %}
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h6>Budget Status</h6>
+                <p>
+                    {% if expense < 10000 %}Healthy
+                    {% elif expense < 25000 %}Moderate
+                    {% else %}Needs Attention
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row text-center">
+            <div class="col-md-4">
+                <h6 class="fw-bold">AI Model</h6>
+                <p>Linear Regression</p>
+            </div>
+            <div class="col-md-4">
+                <h6 class="fw-bold">Confidence</h6>
+                <p>High</p>
+            </div>
+            <div class="col-md-4">
+                <h6 class="fw-bold">Prediction Status</h6>
+                <p>Completed</p>
+            </div>
+        </div>
+
+    </div>
+
+    <p class="text-center text-secondary mt-4 mb-3 reveal">
+        <i class="bi bi-check-circle-fill text-success"></i>
+        Prediction generated successfully using the Linear Regression AI model.
+    </p>
+
+    <div class="quick-actions-row reveal" style="justify-content:center;">
+        <a href="{{ url_for('forecast') }}" class="btn btn-primary quick-action-btn-lg">
+            <i class="bi bi-arrow-repeat"></i> New Prediction
+        </a>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-success quick-action-btn-lg">
+            <i class="bi bi-house-fill"></i> Back to Dashboard
+        </a>
+    </div>
+
+{% endblock %}

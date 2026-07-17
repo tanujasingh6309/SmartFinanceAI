@@ -1,0 +1,118 @@
+# ==========================
+# Environment Variables
+# ==========================
+.env
+.env.*
+!.env.example
+
+# ==========================
+# Python
+# ==========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.python-version
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# ==========================
+# Virtual Environment
+# ==========================
+venv/
+env/
+ENV/
+.venv/
+
+# ==========================
+# Flask
+# ==========================
+instance/
+.flaskenv
+flask_session/
+
+# ==========================
+# Database (SQLite)
+# ==========================
+*.db
+*.sqlite
+*.sqlite3
+
+# ==========================
+# Machine Learning
+# ==========================
+*.pkl
+*.h5
+*.pt
+*.model
+
+# ==========================
+# Generated Reports / Exports
+# ==========================
+*.xlsx
+*.xls
+
+# ==========================
+# Logs
+# ==========================
+*.log
+logs/
+
+# ==========================
+# Coverage
+# ==========================
+.coverage
+htmlcov/
+
+# ==========================
+# Cache Files
+# ==========================
+.cache/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+*.cache
+
+# ==========================
+# Jupyter
+# ==========================
+.ipynb_checkpoints/
+
+# ==========================
+# Temporary Files
+# ==========================
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# ==========================
+# VS Code
+# ==========================
+.vscode/
+*.code-workspace
+
+# ==========================
+# JetBrains IDEs
+# ==========================
+.idea/
+*.iml
+*.iws
+
+# ==========================
+# macOS
+# ==========================
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ==========================
+# Windows
+# ==========================
+Thumbs.db
+desktop.ini

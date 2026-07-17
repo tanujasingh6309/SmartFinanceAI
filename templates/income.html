@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Income Tracker{% endblock %}
+
+{% block page_header %}
+<div class="dashboard-header fade-in">
+    <div class="welcome-eyebrow"><i class="bi bi-cash-stack"></i> Income</div>
+    <h1 class="dashboard-title">Income Tracker</h1>
+    <p class="dashboard-subtitle">Track every source of your income.</p>
+</div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="glass-card settings-card reveal">
+        <div class="settings-card-header">
+            <div class="settings-card-icon settings-icon-mint"><i class="bi bi-plus-circle"></i></div>
+            <div>
+                <div class="settings-card-title">Add Income</div>
+                <div class="settings-card-subtitle">Record a new income entry</div>
+            </div>
+        </div>
+
+        <form method="POST">
+
+            <div class="settings-card-body">
+
+                <div class="settings-field-group">
+                    <label class="form-label">Source</label>
+                    <select name="source" class="form-select">
+                        <option>Salary</option>
+                        <option>Freelancing</option>
+                        <option>Scholarship</option>
+                        <option>Business</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="settings-field-group">
+                    <label class="form-label">Amount</label>
+                    <input type="number" name="amount" class="form-control" required>
+                </div>
+
+                <div class="settings-field-group">
+                    <label class="form-label">Date</label>
+                    <input type="date" name="date" class="form-control" required>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100">
+                    <i class="bi bi-plus-circle"></i> Add Income
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="kpi-grid reveal">
+        <div class="glass-card kpi-card income">
+            <div class="kpi-icon"><i class="bi bi-cash-stack"></i></div>
+            <div class="kpi-title">Total Income</div>
+            <div class="kpi-value">₹<span data-counter="{{ total_income }}">{{ total_income }}</span></div>
+        </div>
+    </div>
+
+    <h2 class="section-title reveal"><i class="bi bi-table"></i> Income History</h2>
+
+    <div class="glass-card reveal" style="padding:26px; margin-top:20px; overflow-x:auto;">
+        <table class="table table-striped table-bordered mb-0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Source</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for income in incomes %}
+                <tr>
+                    <td>{{ income.id }}</td>
+                    <td>{{ income.source }}</td>
+                    <td>₹{{ income.amount }}</td>
+                    <td>{{ income.date }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="quick-actions-row reveal">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-primary quick-action-btn-lg">
+            <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
+        </a>
+    </div>
+
+{% endblock %}

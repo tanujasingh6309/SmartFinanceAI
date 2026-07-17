@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile - SmartFinanceAI{% endblock %}
+
+{% block page_header %}
+    <div class="dashboard-header fade-in">
+
+        <div class="welcome-eyebrow">
+            <i class="bi bi-person-circle"></i> My Profile
+        </div>
+
+        <h1 class="dashboard-title">
+            My Profile
+        </h1>
+
+        <p class="dashboard-subtitle">
+            View your account details and your financial summary at a glance.
+        </p>
+
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <!-- Profile Hero -->
+    <div class="glass-card profile-hero reveal">
+
+        <div class="profile-hero-avatar">
+            {{ (user_name|default('U'))[0]|upper if user_name else 'U' }}
+        </div>
+
+        <div class="profile-hero-info">
+            <h2>{{ user_name }}</h2>
+            <p>Welcome to SmartFinanceAI.</p>
+            <span class="profile-hero-badge">
+                <i class="bi bi-patch-check-fill"></i> Active Account
+            </span>
+        </div>
+
+    </div>
+
+    <h2 class="section-title reveal"><i class="bi bi-graph-up"></i> Financial Summary</h2>
+
+    <div class="kpi-grid reveal">
+
+        <div class="glass-card kpi-card income">
+            <div class="kpi-icon"><i class="bi bi-cash-stack"></i></div>
+            <div class="kpi-title">Total Income</div>
+            <div class="kpi-value">₹{{ total_income }}</div>
+            <div class="kpi-sub">All-time recorded income</div>
+        </div>
+
+        <div class="glass-card kpi-card expense">
+            <div class="kpi-icon"><i class="bi bi-wallet2"></i></div>
+            <div class="kpi-title">Total Expense</div>
+            <div class="kpi-value">₹{{ total_expense }}</div>
+            <div class="kpi-sub">All-time recorded expense</div>
+        </div>
+
+        <div class="glass-card kpi-card savings">
+            <div class="kpi-icon"><i class="bi bi-piggy-bank-fill"></i></div>
+            <div class="kpi-title">Savings</div>
+            <div class="kpi-value">₹{{ savings }}</div>
+            <div class="kpi-sub">Income minus expense</div>
+        </div>
+
+    </div>
+
+    <hr class="section-divider">
+
+    <h2 class="section-title reveal"><i class="bi bi-lightning-charge-fill"></i> Quick Actions</h2>
+
+    <div class="quick-actions-row reveal">
+
+        <a href="/dashboard" class="btn btn-primary quick-action-btn-lg">
+            <i class="bi bi-house-door-fill"></i> Back to Dashboard
+        </a>
+
+        <a href="/settings" class="btn quick-action-btn-lg">
+            <i class="bi bi-gear"></i> Settings
+        </a>
+
+        <a href="/reports" class="btn quick-action-btn-lg">
+            <i class="bi bi-file-earmark-bar-graph"></i> View Reports
+        </a>
+
+    </div>
+
+{% endblock %}

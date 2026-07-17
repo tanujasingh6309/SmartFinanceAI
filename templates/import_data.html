@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Import Data - SmartFinanceAI{% endblock %}
+
+{% block page_header %}
+    <div class="dashboard-header fade-in">
+        <div class="welcome-eyebrow"><i class="bi bi-upload"></i> Data Management</div>
+        <h1 class="dashboard-title">Import Financial Data</h1>
+        <p class="dashboard-subtitle">Upload a CSV file to bulk-import your expense records.</p>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show mt-4">
+            <i class="bi bi-{{ 'check-circle-fill' if category == 'success' else 'exclamation-triangle-fill' }}"></i> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="glass-card settings-card reveal">
+
+        <div class="settings-card-header">
+            <div class="settings-card-icon settings-icon-mint"><i class="bi bi-file-earmark-arrow-up"></i></div>
+            <div>
+                <div class="settings-card-title">Import CSV</div>
+                <div class="settings-card-subtitle">Required columns: Category, Amount, Date</div>
+            </div>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            <div class="settings-card-body">
+
+                <div class="settings-field-group">
+                    <label class="form-label">Select CSV File</label>
+                    <input type="file" name="file" accept=".csv" class="form-control">
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-upload"></i> Upload File
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="quick-actions-row reveal">
+        <a href="/settings" class="btn btn-success quick-action-btn-lg">
+            <i class="bi bi-arrow-left-circle"></i> Back to Settings
+        </a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Risk Predictor - SmartFinanceAI{% endblock %}
+
+{% block page_header %}
+    <div class="dashboard-header fade-in">
+        <div class="welcome-eyebrow"><i class="bi bi-shield-exclamation"></i> Risk Predictor</div>
+        <h1 class="dashboard-title">Financial Risk Predictor</h1>
+        <p class="dashboard-subtitle">AI-powered financial risk analysis.</p>
+        <div class="ai-feature-chip" style="margin-top:14px;">
+            <i class="bi bi-cpu-fill"></i> Random Forest ML Model
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="glass-card reveal" style="padding:26px; margin-top:24px; text-align:center;">
+        <h5><i class="bi bi-robot"></i> AI Risk Analysis</h5>
+        <p class="text-secondary mb-0">
+            Our machine learning model evaluates your financial profile and predicts your financial risk level.
+        </p>
+    </div>
+
+    <div class="alert alert-info reveal" style="margin-top:20px;">
+        <i class="bi bi-lightbulb-fill"></i>
+        <strong>AI Tip:</strong> Keeping your debt ratio low and avoiding missed payments are the biggest factors in lowering your financial risk score.
+    </div>
+
+    <div class="glass-card settings-card reveal">
+
+        <form method="POST">
+
+            <div class="settings-card-body">
+
+                <div class="settings-field-group">
+                    <label class="form-label">Monthly Income</label>
+                    <input type="number" name="income" class="form-control" required>
+                </div>
+
+                <div class="settings-field-group">
+                    <label class="form-label">Credit Score</label>
+                    <input type="number" name="credit_score" class="form-control" required>
+                </div>
+
+                <div class="settings-field-group">
+                    <label class="form-label">Loan Amount</label>
+                    <input type="number" name="loan_amount" class="form-control" required>
+                </div>
+
+                <div class="settings-field-group">
+                    <label class="form-label">Debt Ratio</label>
+                    <input type="number" step="0.01" name="debt_ratio" class="form-control" placeholder="Example: 0.45" required>
+                </div>
+
+                <div class="settings-field-group">
+                    <label class="form-label">Assets</label>
+                    <input type="number" name="assets" class="form-control" required>
+                </div>
+
+                <div class="settings-field-group">
+                    <label class="form-label">Previous Defaults</label>
+                    <select name="previous_defaults" class="form-select">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-danger w-100">
+                    <i class="bi bi-cpu-fill"></i> Predict Risk
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="quick-actions-row reveal">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-success quick-action-btn-lg">
+            <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
+        </a>
+    </div>
+
+{% endblock %}

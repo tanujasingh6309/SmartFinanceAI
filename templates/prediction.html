@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}AI Expense Prediction - SmartFinanceAI{% endblock %}
+
+{% block page_header %}
+    <div class="dashboard-header fade-in">
+        <div class="welcome-eyebrow"><i class="bi bi-robot"></i> AI Insights</div>
+        <h1 class="dashboard-title">AI Expense Prediction</h1>
+        <p class="dashboard-subtitle">AI-powered prediction based on your financial history.</p>
+        <div class="ai-feature-chip" style="margin-top:14px;">
+            <i class="bi bi-cpu-fill"></i> Linear Regression Model
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="glass-card kpi-card score reveal" style="text-align:center; margin-top:24px;">
+        <h4 style="margin-bottom:14px;">
+            <i class="bi bi-graph-up-arrow"></i> Predicted Expense
+        </h4>
+
+        {% if prediction is not none %}
+        <h1 class="display-4 fw-bold text-success">₹{{ prediction }}</h1>
+        {% else %}
+        <div class="alert alert-warning mb-0">{{ message }}</div>
+        {% endif %}
+    </div>
+
+    <div class="glass-card reveal" style="padding:28px; margin-top:20px;">
+        <h4 class="text-warning fw-bold">
+            <i class="bi bi-lightbulb-fill"></i> AI Recommendation
+        </h4>
+
+        {% if prediction is not none %}
+            {% if prediction > 10000 %}
+            <p class="text-danger mb-0">
+                Your expenses may increase next month. Consider reducing unnecessary spending.
+            </p>
+            {% elif prediction > 5000 %}
+            <p class="text-warning mb-0">
+                Moderate spending expected. Keep following your monthly budget.
+            </p>
+            {% else %}
+            <p class="text-success mb-0">
+                Great! Your predicted expenses are under control.
+            </p>
+            {% endif %}
+        {% else %}
+        <div class="alert alert-warning mb-0">{{ message }}</div>
+        {% endif %}
+    </div>
+
+    <div class="quick-actions-row reveal">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-success quick-action-btn-lg">
+            <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
+        </a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Loan Prediction Result - SmartFinanceAI{% endblock %}
+
+{% block page_header %}
+    <div class="dashboard-header fade-in">
+        <div class="welcome-eyebrow"><i class="bi bi-bank2"></i> Loan Result</div>
+        <h1 class="dashboard-title">Loan Prediction</h1>
+        <p class="dashboard-subtitle">AI-powered loan eligibility analysis.</p>
+        <div class="ai-feature-chip" style="margin-top:14px;">
+            <i class="bi bi-cpu-fill"></i> Decision Tree ML Model
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="glass-card kpi-card score reveal" style="text-align:center; margin-top:24px;">
+        <h3><i class="bi bi-graph-up-arrow"></i> Loan Eligibility Result</h3>
+        <h1 class="display-3 fw-bold mt-3">
+            {{ result }}
+            {% if "Approved" in result %}
+            <div class="mt-3">
+                <span class="badge bg-success fs-6">
+                    <i class="bi bi-check-circle-fill"></i> Eligible for Loan
+                </span>
+            </div>
+            {% else %}
+            <div class="mt-3">
+                <span class="badge bg-danger fs-6">
+                    <i class="bi bi-x-circle-fill"></i> Not Eligible
+                </span>
+            </div>
+            {% endif %}
+        </h1>
+    </div>
+
+    <div class="glass-card reveal" style="padding:28px; margin-top:20px; text-align:center;">
+
+        <h3 class="text-warning fw-bold"><i class="bi bi-lightbulb-fill"></i> AI Recommendation</h3>
+
+        {% if "Approved" in result %}
+        <p class="text-success">
+            Congratulations! Your financial profile indicates that your loan is likely to be approved.
+        </p>
+        {% else %}
+        <p class="text-danger">
+            Your loan may not be approved. Improve your credit score and increase your income before applying again.
+        </p>
+        {% endif %}
+
+        <hr>
+
+        <div class="row text-center mt-4">
+            <div class="col-md-4">
+                <h6>AI Model</h6>
+                <p>Decision Tree</p>
+            </div>
+            <div class="col-md-4">
+                <h6>Confidence</h6>
+                <p>High</p>
+            </div>
+            <div class="col-md-4">
+                <h6>Status</h6>
+                <p>
+                    {% if "Approved" in result %}Eligible
+                    {% else %}Review Required
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <p class="text-center text-secondary mt-4 mb-3 reveal">
+        <i class="bi bi-check-circle-fill text-success"></i>
+        Loan eligibility analysis completed successfully.
+    </p>
+
+    <div class="quick-actions-row reveal" style="justify-content:center;">
+        <a href="{{ url_for('loan') }}" class="btn btn-primary quick-action-btn-lg">
+            <i class="bi bi-arrow-repeat"></i> New Prediction
+        </a>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-success quick-action-btn-lg">
+            <i class="bi bi-house-fill"></i> Back to Dashboard
+        </a>
+    </div>
+
+{% endblock %}

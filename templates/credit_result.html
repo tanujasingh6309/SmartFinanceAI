@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Credit Score Result - SmartFinanceAI{% endblock %}
+
+{% block page_header %}
+    <div class="dashboard-header fade-in">
+        <div class="welcome-eyebrow"><i class="bi bi-credit-card-fill"></i> Credit Result</div>
+        <h1 class="dashboard-title">Credit Score Prediction</h1>
+        <p class="dashboard-subtitle">AI-powered credit score classification based on your financial profile.</p>
+        <div class="ai-feature-chip" style="margin-top:14px;">
+            <i class="bi bi-cpu-fill"></i> Decision Tree ML Model
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="glass-card kpi-card score reveal" style="text-align:center; margin-top:24px;">
+        <h3><i class="bi bi-graph-up-arrow"></i> Credit Score Result</h3>
+        <h1 class="display-3 fw-bold mt-3">
+            {{ result }}
+            {% if result == "High" %}
+            <div class="mt-3">
+                <span class="badge bg-success fs-6">
+                    <i class="bi bi-check-circle-fill"></i> Excellent Credit
+                </span>
+            </div>
+            {% elif result == "Medium" %}
+            <div class="mt-3">
+                <span class="badge bg-warning text-dark fs-6">
+                    <i class="bi bi-exclamation-circle-fill"></i> Good Credit
+                </span>
+            </div>
+            {% else %}
+            <div class="mt-3">
+                <span class="badge bg-danger fs-6">
+                    <i class="bi bi-x-circle-fill"></i> Needs Improvement
+                </span>
+            </div>
+            {% endif %}
+        </h1>
+    </div>
+
+    <div class="glass-card reveal" style="padding:28px; margin-top:20px; text-align:center;">
+
+        <h3 class="text-warning fw-bold"><i class="bi bi-lightbulb-fill"></i> AI Recommendation</h3>
+
+        {% if result == "High" %}
+        <p class="text-success">
+            Excellent! You have a strong credit profile. Continue paying bills on time and maintain responsible financial habits.
+        </p>
+        {% elif result == "Medium" %}
+        <p class="text-warning">
+            Your credit profile is good but has room for improvement. Reduce debt and make timely payments.
+        </p>
+        {% else %}
+        <p class="text-danger">
+            Your credit score needs improvement. Avoid missed payments and focus on reducing outstanding debt.
+        </p>
+        {% endif %}
+
+        <hr>
+
+        <div class="row text-center mt-4">
+            <div class="col-md-4">
+                <h6>AI Model</h6>
+                <p>Decision Tree</p>
+            </div>
+            <div class="col-md-4">
+                <h6>Confidence</h6>
+                <p>High</p>
+            </div>
+            <div class="col-md-4">
+                <h6>Status</h6>
+                <p>
+                    {% if result == "High" %}Excellent
+                    {% elif result == "Medium" %}Good
+                    {% else %}Needs Improvement
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <p class="text-center text-secondary mt-4 mb-3 reveal">
+        <i class="bi bi-check-circle-fill text-success"></i>
+        Credit score analysis completed successfully.
+    </p>
+
+    <div class="quick-actions-row reveal" style="justify-content:center;">
+        <a href="{{ url_for('credit') }}" class="btn btn-primary quick-action-btn-lg">
+            <i class="bi bi-arrow-repeat"></i> Predict Again
+        </a>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-success quick-action-btn-lg">
+            <i class="bi bi-house-fill"></i> Back to Dashboard
+        </a>
+    </div>
+
+{% endblock %}

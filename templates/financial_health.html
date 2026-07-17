@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Financial Health Analysis - SmartFinanceAI{% endblock %}
+
+{% block page_header %}
+    <div class="dashboard-header fade-in">
+        <div class="welcome-eyebrow"><i class="bi bi-heart-pulse-fill"></i> Financial Health</div>
+        <h1 class="dashboard-title">AI Financial Health</h1>
+        <p class="dashboard-subtitle">Analyze, track, and improve your finances.</p>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="kpi-grid reveal">
+
+        <div class="glass-card kpi-card income">
+            <div class="kpi-icon"><i class="bi bi-cash-stack"></i></div>
+            <div class="kpi-title">Average Income</div>
+            <div class="kpi-value">₹<span data-counter="{{ avg_income }}">{{ avg_income }}</span></div>
+        </div>
+
+        <div class="glass-card kpi-card expense">
+            <div class="kpi-icon"><i class="bi bi-cart-x"></i></div>
+            <div class="kpi-title">Average Expense</div>
+            <div class="kpi-value">₹<span data-counter="{{ avg_expense }}">{{ avg_expense }}</span></div>
+        </div>
+
+        <div class="glass-card kpi-card score">
+            <div class="kpi-icon"><i class="bi bi-speedometer2"></i></div>
+            <div class="kpi-title">Health Score</div>
+            <div class="kpi-value"><span data-counter="{{ health_score }}" data-suffix="%">{{ health_score }}%</span></div>
+            <div class="goal-progress-track" style="margin-top:12px;">
+                <div id="healthScoreBar" style="height:12px;border-radius:999px;background:linear-gradient(90deg, var(--mint), var(--mint-strong));"
+                     data-score="{{ health_score }}"></div>
+            </div>
+        </div>
+
+        <div class="glass-card kpi-card savings">
+            <div class="kpi-icon"><i class="bi bi-emoji-smile-fill"></i></div>
+            <div class="kpi-title">Status</div>
+            <div class="kpi-value" style="font-size:1.4rem;">{{ status }}</div>
+        </div>
+
+    </div>
+
+    <div class="glass-card reveal" style="padding:28px; margin-top:24px;">
+        <h4 class="text-warning fw-bold">
+            <i class="bi bi-lightbulb-fill"></i> AI Recommendation
+        </h4>
+
+        {% if health_score >= 80 %}
+        <p class="text-success mb-0">
+            Excellent! Your finances are healthy. Consider investing your savings.
+        </p>
+        {% elif health_score >= 60 %}
+        <p class="text-warning mb-0">
+            Good progress. Try reducing unnecessary expenses.
+        </p>
+        {% else %}
+        <p class="text-danger mb-0">
+            Your expenses are high. Focus on budgeting and increasing savings.
+        </p>
+        {% endif %}
+    </div>
+
+    <div class="quick-actions-row reveal">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-success quick-action-btn-lg">
+            <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
+        </a>
+    </div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+(function(){
+    const healthScoreBar = document.getElementById("healthScoreBar");
+    if (healthScoreBar) {
+        healthScoreBar.style.width = healthScoreBar.dataset.score + "%";
+    }
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - SmartFinanceAI{% endblock %}
+
+{% block page_header %}
+    <div class="dashboard-header fade-in">
+
+        <div class="welcome-eyebrow">
+            <i class="bi bi-gear-fill"></i> Settings
+        </div>
+
+        <h1 class="dashboard-title">
+            ⚙ Settings
+        </h1>
+
+        <p class="dashboard-subtitle">
+            Manage your SmartFinanceAI preferences and account.
+        </p>
+
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show mt-4">
+            <i class="bi bi-{{ 'check-circle-fill' if category == 'success' else 'exclamation-triangle-fill' }}"></i> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('settings') }}">
+    <div class="settings-grid reveal">
+
+        <!-- Card 1: Account Settings -->
+        <div class="glass-card settings-card">
+
+            <div class="settings-card-header">
+                <div class="settings-card-icon settings-icon-mint"><i class="bi bi-person-circle"></i></div>
+                <div>
+                    <div class="settings-card-title">Account Settings</div>
+                    <div class="settings-card-subtitle">Your personal account details</div>
+                </div>
+            </div>
+
+            <div class="settings-card-body">
+
+                <div class="settings-field-group">
+                    <label class="form-label" for="settingsUserName">User Name</label>
+                    <input type="text" class="form-control" id="settingsUserName" name="settingsUserName"
+                           value="{{ user_name }}" autocomplete="name">
+                </div>
+
+                <div class="settings-field-group">
+                    <label class="form-label" for="settingsEmail">Email</label>
+                    <input type="email" class="form-control" id="settingsEmail" name="settingsEmail"
+                           value="{{ user_email if user_email else '' }}"
+                           placeholder="you@example.com" autocomplete="email">
+                </div>
+
+                <div class="settings-field-group">
+                    <label class="form-label" for="settingsPassword">Change Password</label>
+                    <input type="password" class="form-control" id="settingsPassword" name="settingsPassword"
+                           placeholder="New password" autocomplete="new-password">
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Card 2: Appearance -->
+        <div class="glass-card settings-card">
+
+            <div class="settings-card-header">
+                <div class="settings-card-icon settings-icon-indigo"><i class="bi bi-palette-fill"></i></div>
+                <div>
+                    <div class="settings-card-title">Appearance</div>
+                    <div class="settings-card-subtitle">Customize how SmartFinanceAI looks</div>
+                </div>
+            </div>
+
+            <div class="settings-card-body">
+
+                <div class="form-check form-switch settings-switch-row">
+                    <input class="form-check-input" type="checkbox" role="switch" id="settingsDarkTheme" name="dark_theme" {% if dark_theme %}checked{% endif %}>
+                    <label class="form-check-label settings-switch-label" for="settingsDarkTheme">
+                        Dark Theme
+                        <span class="settings-switch-desc">Preview-only preference (site theme toggle is in the navbar)</span>
+                    </label>
+                </div>
+
+                <div class="form-check form-switch settings-switch-row">
+                    <input class="form-check-input" type="checkbox" role="switch" id="settingsAnimations" name="animations" {% if animations %}checked{% endif %}>
+                    <label class="form-check-label settings-switch-label" for="settingsAnimations">
+                        Animations
+                        <span class="settings-switch-desc">Enable card hover and reveal animations</span>
+                    </label>
+                </div>
+
+                <div class="form-check form-switch settings-switch-row">
+                    <input class="form-check-input" type="checkbox" role="switch" id="settingsCompactMode" name="compact_mode" {% if compact_mode %}checked{% endif %}>
+                    <label class="form-check-label settings-switch-label" for="settingsCompactMode">
+                        Compact Mode
+                        <span class="settings-switch-desc">Reduce spacing for denser layouts</span>
+                    </label>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Card 3: Notifications -->
+        <div class="glass-card settings-card">
+
+            <div class="settings-card-header">
+                <div class="settings-card-icon settings-icon-blue"><i class="bi bi-bell-fill"></i></div>
+                <div>
+                    <div class="settings-card-title">Notifications</div>
+                    <div class="settings-card-subtitle">Choose what you want to hear about</div>
+                </div>
+            </div>
+
+            <div class="settings-card-body">
+
+                <div class="form-check form-switch settings-switch-row">
+                    <input class="form-check-input" type="checkbox" role="switch" id="settingsBudgetAlerts" name="budget_alerts" {% if budget_alerts %}checked{% endif %}>
+                    <label class="form-check-label settings-switch-label" for="settingsBudgetAlerts">
+                        Budget Alerts
+                    </label>
+                </div>
+
+                <div class="form-check form-switch settings-switch-row">
+                    <input class="form-check-input" type="checkbox" role="switch" id="settingsGoalAlerts" name="goal_alerts" {% if goal_alerts %}checked{% endif %}>
+                    <label class="form-check-label settings-switch-label" for="settingsGoalAlerts">
+                        Goal Alerts
+                    </label>
+                </div>
+
+                <div class="form-check form-switch settings-switch-row">
+                    <input class="form-check-input" type="checkbox" role="switch" id="settingsMonthlyReports" name="monthly_reports" {% if monthly_reports %}checked{% endif %}>
+                    <label class="form-check-label settings-switch-label" for="settingsMonthlyReports">
+                        Monthly Reports
+                    </label>
+                </div>
+
+                <div class="form-check form-switch settings-switch-row">
+                    <input class="form-check-input" type="checkbox" role="switch" id="settingsAiSuggestions" name="ai_suggestions" {% if ai_suggestions %}checked{% endif %}>
+                    <label class="form-check-label settings-switch-label" for="settingsAiSuggestions">
+                        AI Suggestions
+                    </label>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Card 4: Data Management -->
+        <div class="glass-card settings-card">
+
+            <div class="settings-card-header">
+                <div class="settings-card-icon settings-icon-rose"><i class="bi bi-database-fill"></i></div>
+                <div>
+                    <div class="settings-card-title">Data Management</div>
+                    <div class="settings-card-subtitle">Export, import or clear your data</div>
+                </div>
+            </div>
+
+            <div class="settings-card-body">
+
+                <div class="settings-action-row">
+
+                    <a href="/reports" class="btn settings-action-btn">
+                        <i class="bi bi-download"></i> Export Data
+                    </a>
+
+                    <a href="/import_data" class="btn settings-action-btn">
+                        <i class="bi bi-upload"></i> Import Data
+                    </a>
+
+                    <a href="/delete_all_data" class="btn btn-danger settings-action-btn"
+                       onclick="return confirm('Are you sure you want to delete all financial data?');">
+                        <i class="bi bi-trash3"></i> Delete All Data
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="text-center mt-5 mb-4">
+
+        <button
+            type="submit"
+            class="btn btn-primary btn-lg px-5"
+            id="saveAllSettings">
+
+            <i class="bi bi-check-circle-fill"></i>
+            Save All Changes
+
+        </button>
+
+    </div>
+
+    </form>
+
+    <hr class="section-divider">
+
+    <h2 class="section-title reveal"><i class="bi bi-lightning-charge-fill"></i> Quick Actions</h2>
+
+    <div class="quick-actions-row settings-quick-actions reveal">
+
+        <a href="/dashboard" class="btn btn-primary quick-action-btn-lg">
+            <i class="bi bi-house-door-fill"></i> Back to Dashboard
+        </a>
+
+        <a href="/logout" class="btn quick-action-btn-lg">
+            <i class="bi bi-box-arrow-right"></i> Logout
+        </a>
+
+    </div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// ---- Settings page only: cosmetic "Save Changes" feedback (no backend) ----
+(function(){
+    const saveBtn = document.getElementById("saveAllSettings");
+    if(!saveBtn) return;
+    saveBtn.addEventListener("click", function(e){
+        saveBtn.innerHTML ='<i class="bi bi-check-circle-fill"></i> Saved';
+        setTimeout(function(){
+           saveBtn.innerHTML ='<i class="bi bi-check-circle-fill"></i> Save All Changes';
+        }, 1500);
+    });
+})();
+</script>
+{% endblock %}

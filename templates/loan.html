@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Loan Eligibility Predictor - SmartFinanceAI{% endblock %}
+
+{% block page_header %}
+    <div class="dashboard-header fade-in">
+        <div class="welcome-eyebrow"><i class="bi bi-bank2"></i> Loan Predictor</div>
+        <h1 class="dashboard-title">Loan Eligibility Predictor</h1>
+        <p class="dashboard-subtitle">AI-powered prediction based on your income and credit score.</p>
+        <div class="ai-feature-chip" style="margin-top:14px;">
+            <i class="bi bi-cpu-fill"></i> Decision Tree ML Model
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="glass-card reveal" style="padding:26px; margin-top:24px; text-align:center;">
+        <h4><i class="bi bi-robot"></i> Loan Eligibility Analysis</h4>
+        <p class="mb-0">Enter your monthly income and credit score to receive an AI-based loan eligibility prediction.</p>
+    </div>
+
+    <div class="alert alert-info reveal" style="margin-top:20px;">
+        <i class="bi bi-lightbulb-fill"></i>
+        <strong>AI Tip:</strong> Higher income and a better credit score generally improve your chances of loan approval.
+    </div>
+
+    <div class="glass-card settings-card reveal">
+
+        <form method="POST">
+
+            <div class="settings-card-body">
+
+                <div class="settings-field-group">
+                    <label class="form-label"><i class="bi bi-cash-stack"></i> Monthly Income</label>
+                    <input type="number" name="income" class="form-control" placeholder="Example: 50000" required>
+                </div>
+
+                <div class="settings-field-group">
+                    <label class="form-label"><i class="bi bi-credit-card-2-front-fill"></i> Credit Score</label>
+                    <input type="number" name="credit_score" class="form-control" placeholder="Example: 700" required>
+                </div>
+
+                <button type="submit" class="btn btn-warning text-dark w-100">
+                    <i class="bi bi-cpu-fill"></i> Check Loan Eligibility
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="quick-actions-row reveal">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-success quick-action-btn-lg">
+            <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
+        </a>
+    </div>
+
+{% endblock %}

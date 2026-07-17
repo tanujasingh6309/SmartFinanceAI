@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Expense Tracker{% endblock %}
+
+{% block page_header %}
+<div class="dashboard-header fade-in">
+    <div class="welcome-eyebrow"><i class="bi bi-wallet2"></i> Expense</div>
+    <h1 class="dashboard-title">Expense Tracker</h1>
+    <p class="dashboard-subtitle">Track and manage all your expenses.</p>
+</div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="glass-card settings-card reveal">
+        <div class="settings-card-header">
+            <div class="settings-card-icon settings-icon-rose"><i class="bi bi-plus-circle"></i></div>
+            <div>
+                <div class="settings-card-title">Add Expense</div>
+                <div class="settings-card-subtitle">Record a new expense entry</div>
+            </div>
+        </div>
+
+        <form method="POST">
+
+            <div class="settings-card-body">
+
+                <div class="settings-field-group">
+                    <label class="form-label">Category</label>
+                    <select name="category" class="form-select">
+                        <option>Food</option>
+                        <option>Travel</option>
+                        <option>Shopping</option>
+                        <option>Bills</option>
+                    </select>
+                </div>
+
+                <div class="settings-field-group">
+                    <label class="form-label">Amount</label>
+                    <input type="number" name="amount" class="form-control" required>
+                </div>
+
+                <div class="settings-field-group">
+                    <label class="form-label">Date</label>
+                    <input type="date" name="date" class="form-control" required>
+                </div>
+
+                <button type="submit" class="btn btn-danger w-100">
+                    <i class="bi bi-plus-circle"></i> Add Expense
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="kpi-grid reveal">
+        <div class="glass-card kpi-card expense">
+            <div class="kpi-icon"><i class="bi bi-wallet2"></i></div>
+            <div class="kpi-title">Total Expense</div>
+            <div class="kpi-value">₹<span data-counter="{{ total_expense }}">{{ total_expense }}</span></div>
+            <div class="kpi-sub">Total Transactions: {{ expenses|length }}</div>
+        </div>
+    </div>
+
+    <div class="glass-card reveal" style="padding:22px; margin-top:24px;">
+        <form method="GET" class="d-flex gap-2">
+            <input type="text" name="search" class="form-control" placeholder="Search Category...">
+            <button type="submit" class="btn btn-primary shadow">
+                <i class="bi bi-search"></i> Search
+            </button>
+        </form>
+    </div>
+
+    <h2 class="section-title reveal"><i class="bi bi-table"></i> Expense History</h2>
+
+    <div class="glass-card reveal" style="padding:26px; margin-top:20px; overflow-x:auto;">
+        <table class="table table-striped table-bordered mb-0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for expense in expenses %}
+                <tr>
+                    <td>{{ expense.id }}</td>
+                    <td>{{ expense.category }}</td>
+                    <td>₹{{ expense.amount }}</td>
+                    <td>{{ expense.date }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="quick-actions-row reveal">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-success quick-action-btn-lg">
+            <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
+        </a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Budget Planner - SmartFinanceAI{% endblock %}
+
+{% block page_header %}
+    <div class="dashboard-header fade-in">
+        <div class="welcome-eyebrow"><i class="bi bi-pie-chart-fill"></i> Budget</div>
+        <h1 class="dashboard-title">Budget Planner</h1>
+        <p class="dashboard-subtitle">Plan your monthly budget and control your spending.</p>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="glass-card settings-card reveal">
+        <div class="settings-card-header">
+            <div class="settings-card-icon settings-icon-indigo"><i class="bi bi-check-circle"></i></div>
+            <div>
+                <div class="settings-card-title">Set a Budget</div>
+                <div class="settings-card-subtitle">Create a new budget category</div>
+            </div>
+        </div>
+
+        <form method="POST">
+
+            <div class="settings-card-body">
+
+                <div class="settings-field-group">
+                    <label class="form-label">Category</label>
+                    <select name="category" class="form-select">
+                        <option>Food</option>
+                        <option>Travel</option>
+                        <option>Shopping</option>
+                        <option>Bills</option>
+                        <option>Education</option>
+                    </select>
+                </div>
+
+                <div class="settings-field-group">
+                    <label class="form-label">Budget Amount</label>
+                    <input type="number" name="budget_amount" class="form-control" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-check-circle"></i> Set Budget
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="kpi-grid reveal">
+        <div class="glass-card kpi-card budgets">
+            <div class="kpi-icon"><i class="bi bi-wallet-fill"></i></div>
+            <div class="kpi-title">Total Budgets</div>
+            <div class="kpi-value"><span data-counter="{{ budgets|length }}">{{ budgets|length }}</span></div>
+            <div class="kpi-sub">Categories Planned</div>
+        </div>
+    </div>
+
+    <h2 class="section-title reveal"><i class="bi bi-table"></i> Budget History</h2>
+
+    <div class="glass-card reveal" style="padding:26px; margin-top:20px; overflow-x:auto;">
+        <table class="table table-striped table-bordered mb-0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Category</th>
+                    <th>Budget Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for budget in budgets %}
+                <tr>
+                    <td>{{ budget.id }}</td>
+                    <td>{{ budget.category }}</td>
+                    <td>₹{{ budget.budget_amount }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="quick-actions-row reveal">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-success quick-action-btn-lg">
+            <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
+        </a>
+    </div>
+
+{% endblock %}
