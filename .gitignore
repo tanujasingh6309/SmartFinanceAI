@@ -45,7 +45,6 @@ flask_session/
 # ==========================
 # Machine Learning
 # ==========================
-*.pkl
 *.h5
 *.pt
 *.model
